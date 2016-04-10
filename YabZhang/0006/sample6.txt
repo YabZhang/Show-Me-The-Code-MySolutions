@@ -1,0 +1,293 @@
+The Mouse Vs. The PythonPython Programming from the Frontlines
+Skip to content
+About
+Buy the Book
+Contact the Author
+Follow the Blog
+License
+My Projects
+Screencasts
+Search for: 
+Tag Archives: Python
+PyDev of the Week: Chris Moffitt
+March 7, 2016PyDevOfTheWeek, PythonPythonMike
+
+
+
+
+This week we welcome Chris Moffitt (@chris1610) as our PyDev of the Week! Chris has been an active writer about Python on his blog and a speaker at DjangoCon. Let’s spend a few moments getting to know him better.
+
+Can you tell us a little about yourself (hobbies, education, etc):
+
+I currently live near St. Paul Minnesota with my wife and two children. In college, I studied Electrical Engineering and Computer Science. Somewhat surprisingly, my day job does not actually require knowing python. However, my python knowledge has been really useful in building some small (but really useful) programs to manipulate data and create reports on various business topics. I am always finding ways to use python to make my job a little bit easier. Since so many people in big companies think that Excel is the only data analysis tool out there, I really enjoy when I can build something really powerful with just a few lines of python code.
+
+The majority of my spare time is spent with my wife and children. I do enjoy reading and watching movies when I have the time. I like to try to keep my programming skills somewhat relevant by working with python in my spare time.
+
+Continue reading PyDev of the Week: Chris Moffitt →
+
+0 Comments
+Python 101: All about imports
+March 1, 2016Education, PythonPythonMike
+
+
+
+
+One of the first items you learn as a beginner Python programmer is how to import other modules or packages. However, I’ve noticed that even people who have used Python casually for multiple years don’t always know how flexible Python’s importing infrastructure is. In this article, we will be looking at the following topics:
+
+Regular imports
+Using from
+Relative imports
+Optional imports
+Local imports
+import Pitfalls
+Continue reading Python 101: All about imports →
+
+2 Comments
+PyDev of the Week: Brett Cannon
+February 29, 2016PyDevOfTheWeek, PythonPythonMike
+
+
+
+
+This week we welcome Brett Cannon (@brettsky) as our PyDev of the Week. He is a Python core developer (since 2003!) and a Python blogger. Brett has been a speaker at PyCon for several years. You can check out some of his talks on YouTube (for example How to make your code Python 2/3 compatible). I’m pretty sure I’ve seen one or two of his talks myself and they were always pretty good. Let’s take a few moments to get to know Brett better.
+
+brett_cannon
+
+Can you tell us a little about yourself (hobbies, education, etc):
+
+My name is Brett Cannon and I live in Vancouver, Canada with my wife Andrea and our cat. I currently work for Microsoft on the Python team in the Data + Analytics group in Azure.
+
+Education-wise, I have a bachelors degree in philosophy from UC Berkeley, a masters in computer science from Cal Poly San Luis Obispo, and a Ph.D. in computer science from the University of British Columbia (where I met my wife). I actually joined the python-dev mailing list the month following my graduation from Cal and became a member of the Python development team during my year off between my bachelors and masters, so the Python community saw me through grad school. :)
+
+In terms of hobbies, contributing to Python is probably the biggest (yes, I have an addiction problem :). I also enjoy watching movies and select TV shows with my wife (proud cable-never household). And when the Vancouver weather allows for it, I enjoy going for a stroll to clear my head (preferably in nature, but also happy to just walk around my neighbourhood). Otherwise I just read a lot online.
+
+Continue reading PyDev of the Week: Brett Cannon →
+
+0 Comments
+Python: An Example of Bad Monkey Patching
+February 26, 2016PythonPythonMike
+
+
+
+
+Today one of my coworkers came and got me so that I could explain some weird Python code they’d found. It dealt with cmake, but since it was internal code, I won’t be able to show it here. Instead, I wrote up something that has the same issues so you can see what I consider bad, or at the very least, very obtuse code:
+
+class Config:
+ 
+    def Run(self):
+        print('Program Usage: blah blah blah')
+ 
+        print(self.product)
+ 
+        self.asset_tag = 'test'
+        print(self.asset_tag)
+ 
+        total = self.sub_total_a + self.sub_total_b
+When I first saw this, I was struck by how it was using attributes that weren’t initialized and I wondered how this could work. Then I realized they must be doing some kind of monkey patching. Monkey patching is where you write code to dynamically modify a class or module at run time. So I looked farther down the script and found some code that created an instance of the class and did something like this:
+
+def test_config():
+    cfg = Config()
+    cfg.product = 'laptop'
+    cfg.asset_tag = '12345ABCD'
+    cfg.sub_total_a = 10.23
+    cfg.sub_total_b = 112.63
+    cfg.Run()
+ 
+if __name__ == '__main__':
+    test_config()
+So basically whenever you create an instance of the class, you need to patch it so that the attributes exist before you call the Run method.
+
+While I think it’s pretty cool that Python can do this sort of thing, it is extremely confusing to someone who is not familiar with Python, especially when the code was as poorly documented as this was. As you can see, there are no comments or docstrings, so it took a bit of digging to figure out what was going on. Fortunately, all the code was in the same file. Otherwise this could have gotten really tricky to figure out.
+
+I personally thought this was a good example of bad coding. If I had written it, I would have created an __init__ method and initialized all those attributes there. Then there would have been no confusion about how the class worked. I am also a big believer in writing good docstrings and useful comments.
+
+Anyway, I hope you found this interesting. I also thought my readers should be aware of some of the oddball pieces of code you’ll see in the wild.
+
+7 Comments
+Python: An Intro to caching
+February 25, 2016PythonPythonMike
+
+
+
+
+A cache is a way to store a limited amount of data such that future requests for said data can be retrieved faster. In this article, we’ll look at a simple example that uses a dictionary for our cache. Then we’ll move on to using the Python standard library’s functools module to create a cache. Let’s start by creating a class that will construct our cache dictionary and then we’ll extend it as necessary. Here’s the code:
+
+########################################################################
+class MyCache:
+    """"""
+ 
+    #----------------------------------------------------------------------
+    def __init__(self):
+        """Constructor"""
+        self.cache = {}
+        self.max_cache_size = 10
+There’s nothing in particular that’s special in this class example. We just create a simple class and set up two class variables or properties, cache and max_cache_size. The cache is just an empty dictionary while the other is self-explanatory. Let’s flesh this code out and make it actually do something:
+
+Continue reading Python: An Intro to caching →
+
+2 Comments
+PyDev of the Week: Cyrille Rossant
+February 22, 2016PyDevOfTheWeek, PythonPythonMike
+
+
+
+
+This week we welcome Cyrille Rossant (@cyrillerossant) as our PyDev of the Week! Cyrille is one of the core developers behind the VisPy project. He is also the author of several Python books like Learning IPython for Interactive Computing and Data Visualization and IPython Interactive Computing and Visualization Cookbook. His blog is also well worth checking out. Let’s take some time to get to know our fellow Pythonista better!
+
+
+Can you tell us a little about yourself (hobbies, education, etc):
+
+I have a background in math and computer science, and a PhD in neuroinformatics. I’ve been passionate by programming since I was 6, and now I have the chance to combine my passions for science and programming by developing software in a research lab.
+
+As for hobbies, I enjoy listening to all kinds of music, playing piano, and doing photography.
+
+
+Continue reading PyDev of the Week: Cyrille Rossant →
+
+0 Comments
+Reportlab – How to Add Charts / Graphs
+February 18, 2016PythonPython, ReportlabMike
+
+
+
+
+Reportlab is really nice tool for creating PDFs in Python. A little known fact is that they now support adding charts or graphs to your PDF. Previously if you wanted that functionality, you would have to do all the drawing code yourself. Unfortunately, the Reportlab guide doesn’t really explain how to use their charts, what kinds of charts are supported or what their parameters / attributes / etc are. They do have some example code snippets on their website though. In this article, we’ll go over a couple of simple examples to show you how to use Reportlab’s charting capabilities.
+
+Continue reading Reportlab – How to Add Charts / Graphs →
+
+1 Comment
+Python – How to use functools.wraps
+February 17, 2016PythonPythonMike
+
+
+
+
+There is a little known tool that I wanted to talk about today. It is called wraps and it’s a part of the functools module. You can use wraps as a decorator to fix docstrings and names of decorated functions. Why does this matter? This sounds like a weird edge case at first, but if you’re writing an API or any code that someone other than yourself will be using, then this could be important. The reason being that when you use Python’s introspection to figure out someone else’s code, a decorated function will return the wrong information. Let’s look at a simple example that I have dubbed decorum.py:
+
+# decorum.py
+ 
+#----------------------------------------------------------------------
+def another_function(func):
+    """
+    A function that accepts another function
+    """
+ 
+    def wrapper():
+        """
+        A wrapping function
+        """
+        val = "The result of %s is %s" % (func(),
+                                          eval(func())
+                                          )
+        return val
+    return wrapper
+ 
+#----------------------------------------------------------------------
+@another_function
+def a_function():
+    """A pretty useless function"""
+    return "1+1"
+ 
+#----------------------------------------------------------------------
+if __name__ == "__main__":
+    print a_function.__name__
+    print a_function.__doc__
+Continue reading Python – How to use functools.wraps →
+
+1 Comment
+PyDev of the Week: Mike Bayer
+February 15, 2016PyDevOfTheWeek, PythonPythonMike
+
+
+
+
+This week we welcome Mike Bayer (@zzzeek) as our PyDev of the Week. Mike is the creator of the popular SQLAlchemy project. He has a fun Python blog and contributes to many Python projects. I’ve seen Mike present tutorials on SQLAlchemy at PyCon and he regularly does talks there as well (here’s an example from 2014). Let’s spend a few moments getting to him better!
+
+Can you tell us a little about yourself (hobbies, education, etc):
+
+I grew up in Long Island, the suburbs east of New York City, during the 1970s and 80s.   I had my first exposure to computers in 1980 at age 12, and like everyone else who got into “home computers” at that time spent lots of time with the Basic programming language.  Eventually I chose an Atari 800 as my platform in the mid-80s and I even managed to do some rudimental assembly language stuff with it.  In high school I managed to get online in early pre-internet dialup forms like bulletin boards and Compuserve, I later learned Pascal in high school and in college I did major in computer engineering for part of the time, where I learned more procedural programming and data structure theory as well as languages like Modula III and apparently a little bit of Lisp as well, based on looking at my old notes recently.   But in my college years, I really didn’t want to be involved with computers at all so I eventually majored in music at Berklee College of Music, which I also dropped out of to just move to the city and be a drummer.  In the city, my high typing speed and computer skills led me into office temp work doing word processing, which even at the lowest level paid far more than any starving musician could make, so to this day I hardly ever get to do drumming.  In a lot of those jobs I ultimately ended up  writing code to replace lots of the repetitive work they gave to temps and by that time, the “internet” suddenly wanted to hire everyone everywhere who could write just five lines of code so it was a natural move into the enormous late-90’s internet bubble in NYC working for agencies.
+
+Continue reading PyDev of the Week: Mike Bayer →
+
+0 Comments
+Python Partials
+February 11, 2016PythonPythonMike
+
+
+
+
+Python comes with a fun module called functools. One of its classes is the partial class. You can use it create a new function with partial application of the arguments and keywords that you pass to it. You can use partial to “freeze” a portion of your function’s arguments and/or keywords which results in a new object. Another way to put it is that partial creates a new function with some defaults. Let’s look at an example!
+
+>>> from functools import partial
+>>> def add(x, y):
+...     return x + y
+... 
+>>> p_add = partial(add, 2)
+>>> p_add(4)
+6
+Here we create a simple adding function that returns the result of adding its arguments, x and y. Next we create a new callable by creating an instance of partial and passing it our function and an argument for that function. In other words, we are basically defaulting the x parameter of our add function to the number 2. Finally we call our new callable, p_add, with the argument of the number 4 which results in 6 because 2 + 4 = 6.
+
+Continue reading Python Partials →
+
+0 Comments
+Posts navigation
+← Older postsNewer posts →
+Python 101
+
+mousecovertitlejpg_sm2
+Order the eBook
+
+or buy the Paperback!
+
+Screencasts
+
+
+Get the Screencast
+
+Buy Python 101
+
+mousecovertitlejpg_sm2
+Order the eBook
+
+or buy the Paperback!
+
+Screencasts
+
+
+Get the Screencast
+
+Search for: 
+Search …
+Recent Posts
+
+Python 201 Kickstarter Update #3 – Cover Almost Done!
+Python 201 – What is a ChainMap?
+PyDev of the Week: Ezio Melotti
+Python 201 – OrderedDict
+Python 201 Kickstarter Campaign Update – New Cover Preview
+Links
+
+@MouseVsPython
+Buy the Shirt!
+Python
+wxPython
+Archives
+
+Archives
+Recent Comments
+
+cassiobotaro on PyDev of the Week: Massimo DiPierro
+Reece Hart on Python 201: namedtuple
+Christopher Arndt on Python 201: namedtuple
+Mike Driscoll on Python 201: namedtuple
+binarysubstrate on Python 201: namedtuple
+Tags
+
+binaries Book Preview Book Review Books ConfigObj Cross-Platform Distribution Django eBooks Education GUI kivy logging Packaging PyCon PyCon 2010 PyCon 2011 PyCon 2012 Pyowa PyPDF PyQT PySide Python Python 3 Python 101 Python Advocacy Python PDF Series Python Web Frameworks PyWin32 Reportlab sizer SQL SqlAlchemy sqlite System Admin Testing threading Threads Tkinter TurboGears Tutorial Windows wxPython XML XML Parsing Series
+Members
+
+Log in
+Entries RSS
+Comments RSS
+WordPress.org
+Proudly powered by WordPress
